@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.SysRolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.SysRolePermission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sys_role_id" property="sysRoleId" jdbcType="VARCHAR" />
+    <result column="sys_permission_id" property="sysPermissionId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sys_role_id, sys_permission_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_role_permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.entity.SysRolePermission" >
+    insert into sys_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id,
+      </if>
+      <if test="sysPermissionId != null" >
+        sys_permission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysRoleId != null" >
+        #{sysRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPermissionId != null" >
+        #{sysPermissionId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.SysRolePermission" >
+    update sys_role_permission
+    <set >
+      <if test="sysRoleId != null" >
+        sys_role_id = #{sysRoleId,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPermissionId != null" >
+        sys_permission_id = #{sysPermissionId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <sql id="sql_where" >
+    <where >
+      <if test="sysRoleId != null" >
+         and sys_role_id = #{sysRoleId,jdbcType=VARCHAR}
+      </if>
+      <if test="sysPermissionId != null" >
+         and sys_permission_id = #{sysPermissionId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="getList" resultMap="BaseResultMap" parameterType="com.entity.SysRolePermission" >
+     select * from sys_role_permission
+    <include refid="sql_where" />
+  </select>
+  <select id="getCountSelective" parameterType="com.entity.SysRolePermission" >
+     select count(1) from sys_role_permission
+    <include refid="sql_where" />
+  </select>
+</mapper>
